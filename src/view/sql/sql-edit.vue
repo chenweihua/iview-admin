@@ -12,8 +12,8 @@
 import SqlEditor from '_c/sql-editor'
 import { getTableDataFromArray } from '@/libs/util'
 export default {
-    data() {
-      const code =
+  data () {
+    const code =
       `
       -- SQL Mode for CodeMirror
       SELECT SQL_NO_CACHE DISTINCT
@@ -30,19 +30,19 @@ export default {
         comment! */
         LIMIT 1 OFFSET 0;
       `
-      return {
-        code,
-        cmOption: {
-          tabSize: 4,
-          styleActiveLine: true,
-          lineNumbers: true,
-          line: true,
-          mode: 'text/x-mysql',
-          theme: 'solarized light'
-        }
+    return {
+      code,
+      cmOption: {
+        tabSize: 4,
+        styleActiveLine: true,
+        lineNumbers: true,
+        line: true,
+        mode: 'text/x-mysql',
+        theme: 'solarized light'
       }
     }
   }
+}
 </script>
 
 <style lang="less">

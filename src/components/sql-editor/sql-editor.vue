@@ -7,8 +7,8 @@
 <script>
 import CodeMirror from 'codemirror'
 import 'codemirror/lib/codemirror.css'
-import "codemirror/theme/ambiance.css"
-import "codemirror/addon/hint/show-hint.css"
+import 'codemirror/theme/ambiance.css'
+import 'codemirror/addon/hint/show-hint.css'
 import 'codemirror/addon/edit/matchbrackets.js'
 import 'codemirror/addon/selection/active-line.js'
 import 'codemirror/mode/sql/sql.js'
@@ -19,7 +19,7 @@ import { forEach } from '@/libs/tools'
 
 export default {
   name: 'SqlEditor',
-  data() {
+  data () {
     return {
       content: '',
       codemirror: null,
@@ -27,7 +27,7 @@ export default {
     }
   },
   props: {
-    code: "text/x-mysql",
+    code: 'text/x-mysql',
     value: String,
     marker: Function,
     unseenLines: Array,
@@ -63,24 +63,24 @@ export default {
   watch: {
     options: {
       deep: true,
-      handler(options) {
+      handler (options) {
         for (const key in options) {
           this.cminstance.setOption(key, options[key])
         }
       }
     },
-    merge() {
+    merge () {
       this.$nextTick(this.switchMerge)
     },
-    code(newVal) {
+    code (newVal) {
       this.handerCodeChange(newVal)
     },
-    value(newVal) {
+    value (newVal) {
       this.handerCodeChange(newVal)
-    },
+    }
   },
   methods: {
-    initialize() {
+    initialize () {
       const cmOptions = Object.assign({}, this.globalOptions, this.options)
       if (this.merge) {
         this.codemirror = CodeMirror.MergeView(this.$refs.mergeview, cmOptions)
@@ -118,36 +118,36 @@ export default {
         'scrollCursorIntoView',
         'update'
       ]
-      .concat(this.events)
-      .concat(this.globalEvents)
-      .filter(e => (!tmpEvents[e] && (tmpEvents[e] = true)))
-      .forEach(event => {
+        .concat(this.events)
+        .concat(this.globalEvents)
+        .filter(e => (!tmpEvents[e] && (tmpEvents[e] = true)))
+        .forEach(event => {
         // 循环事件，并兼容 run-time 事件命名
-        this.cminstance.on(event, (...args) => {
+          this.cminstance.on(event, (...args) => {
           // console.log('当有事件触发了', event, args)
-          this.$emit(event, ...args)
-          const lowerCaseEvent = event.replace(/([A-Z])/g, '-$1').toLowerCase()
-          if (lowerCaseEvent !== event) {
-            this.$emit(lowerCaseEvent, ...args)
-          }
+            this.$emit(event, ...args)
+            const lowerCaseEvent = event.replace(/([A-Z])/g, '-$1').toLowerCase()
+            if (lowerCaseEvent !== event) {
+              this.$emit(lowerCaseEvent, ...args)
+            }
+          })
         })
-      })
       this.$emit('ready', this.codemirror)
       this.unseenLineMarkers()
       // prevents funky dynamic rendering
       this.refresh()
     },
-    refresh() {
+    refresh () {
       this.$nextTick(() => {
         this.cminstance.refresh()
       })
     },
-    destroy() {
+    destroy () {
       // garbage cleanup
       const element = this.cminstance.doc.cm.getWrapperElement()
       element && element.remove && element.remove()
     },
-    handerCodeChange(newVal) {
+    handerCodeChange (newVal) {
       const cm_value = this.cminstance.getValue()
       if (newVal !== cm_value) {
         const scrollInfo = this.cminstance.getScrollInfo()
@@ -157,7 +157,7 @@ export default {
       }
       this.unseenLineMarkers()
     },
-    unseenLineMarkers() {
+    unseenLineMarkers () {
       if (this.unseenLines !== undefined && this.marker !== undefined) {
         this.unseenLines.forEach(line => {
           const info = this.cminstance.lineInfo(line)
@@ -165,7 +165,7 @@ export default {
         })
       }
     },
-    switchMerge() {
+    switchMerge () {
       // Save current values
       const history = this.cminstance.doc.history
       const cleanGeneration = this.cminstance.doc.cleanGeneration
@@ -177,10 +177,10 @@ export default {
       this.cminstance.doc.cleanGeneration = cleanGeneration
     }
   },
-  mounted() {
+  mounted () {
     this.initialize()
   },
-  beforeDestroy() {
+  beforeDestroy () {
     this.destroy()
   }
 }
