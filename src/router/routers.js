@@ -243,6 +243,15 @@ export default [
           title: '粘贴表格数据'
         },
         component: () => import('@/view/update/update-paste.vue')
+      },
+      {
+        path: 'sql-edit',
+        name: 'sql-edit',
+        meta: {
+          icon: 'md-clipboard',
+          title: 'sql数据'
+        },
+        component: () => import('@/view/sql/sql-edit.vue')
       }
     ]
   },
